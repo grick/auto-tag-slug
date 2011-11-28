@@ -8,7 +8,8 @@ function ats_add_page() {
 }
 
 function ats_option_init() {
-	register_setting('ats_options', 'ats_options', 'ats_options_validate');
+	load_plugin_textdomain( 'auto-tag-slug', false, 'auto-tag-slug/languages' );
+register_setting('ats_options', 'ats_options', 'ats_options_validate');
 	add_settings_section('top', __('General Settings'), 'ats_section_top', __FILE__);
 	add_settings_field('ats_switch_chk', __('Enable Convertor'), 'ats_setting_switch', __FILE__, 'top');
 	add_settings_section('middle', __('Slug Format'), 'ats_section_middle', __FILE__);

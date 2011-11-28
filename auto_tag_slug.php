@@ -2,8 +2,8 @@
 /*
 Plugin Name: Auto Tag Slug
 Plugin URI: http://www.grick.net
-Description: Automatically generate standard uri slug for your tags, especially helpful for non-English country users.
-Version: 0.1
+Description: Automatically generate English Words or Chinese Pinyin slug for your tags, especially helpful for non-English country users.
+Version: 0.5
 Author: Grick.C
 Author URI: http://www.grick.net
 License: GPL2
