@@ -47,7 +47,6 @@ function ats_bing_translate($app_id, $array) {
 			$result_array[] = $str;
 		}
 	}
-	//print_r($result_array);
 	return $result_array;
 }
 ?>

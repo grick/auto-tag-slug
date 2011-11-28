@@ -12,31 +12,44 @@ License: GPL2
 require_once('admin_page.php');
 require_once ('class.Chinese.php');
 require_once('ms_translator.php');
+
 $ats_options = get_option('ats_options');
 
-function ats_pinyin($str) {
+function ats_pinyin($array) {
 	global $ats_options;
 	$table_dir = dirname(__FILE__).'/config/';
-	$encoding = ($ats_options['cnlang'] == 'Traditional Chinese') ? 'BIG5' : 'GB2312';
-	$chs = new Chinese('UTF8', $encoding, $str, $table_dir);
-	$str = $chs->ConvertIT();
-	$chs = new Chinese($encoding, 'PinYin', $str, $table_dir);
-	$str = $chs->ConvertIT();
-	$pinyin_array = explode(' ', $str);
-	$str = '';
-	// Exclude sigleton letter
-	foreach ($pinyin_array as &$pinyin)
-	{
-		if ( strlen($pinyin) > 1 ) :
-			$pinyin .= '-';
-		elseif ( $pinyin == ' ' ) :
-			$pinyin = '-';
-endif;
+	$result_array = array();
+	$array_slice = array_chunk($array, 1000);
+	foreach ($array_slice as $array_1000) {
+		foreach ($array_1000 as &$tag_slug) {
+			$tag_slug = str_replace('|', '', $tag_slug);
+		}
+		$str = join('|', $array_1000);
+		$encoding = ($ats_options['cnlang'] == 'Traditional Chinese') ? 'BIG5' : 'GB2312';
+		$chs = new Chinese('UTF8', $encoding, $str, $table_dir);
+		$str = $chs->ConvertIT();
+		$chs = new Chinese($encoding, 'PinYin', $str, $table_dir);
+		$long_str = $chs->ConvertIT();
+		$items = explode('|', $long_str);
+		foreach ($items as &$item) {
+			$pinyin_array = explode(' ', trim($item));
+			$str = '';
+			// Exclude sigleton letter
+			foreach ($pinyin_array as &$pinyin)
+			{
+				if ( strlen($pinyin) > 1 ) :
+					$pinyin .= '-';
+				elseif ( $pinyin == ' ' ) :
+					$pinyin = '-';
+				endif;
+			}
+			$str = join('', $pinyin_array);
+			// Remove illegal character and last '-'
+			$str = preg_replace('/-$/', '', preg_replace('/[^a-z0-9-]/i', '', $str));
+			$item = strtolower($str);
+		}
 	}
-	$str = join('', $pinyin_array);
-	// Remove illegal character and last '-'
-	$str = preg_replace('/-$/', '', preg_replace('/[^a-z0-9-]/i', '', $str));
-	return strtolower($str);
+	return $items;
 }
 
 function ats_slug_used_by_other_tag($current_tag, $slug) {
@@ -51,32 +64,34 @@ function ats_slug_used_by_other_tag($current_tag, $slug) {
 function ats_convert_tags($tags) {
 	global $ats_options;
 	$engine = $ats_options['engine'];
-	if ($engine == 'english') {
-		$array = array();
-		foreach($tags as $tag){
-			$array[] = urldecode($tag->slug);
-		}
-		$translated_array = ats_bing_translate($ats_options['bing_key'], $array);
-		$i = 0;
-		foreach($tags as &$tag){
-			if ( preg_match('/[^a-z0-9- ]/', $tag->slug) && !empty($translated_array[$i]) ) {
-				$tag->slug = $translated_array[$i];
-			}
-			$i++;
-		}
+	$tags_array = array();
+	foreach($tags as $tag){
+		$tags_array[] = urldecode($tag->slug);
 	}
+	if ($engine == 'english') :
+		$converted_tags = ats_bing_translate($ats_options['bing_key'], $tags_array);
+	elseif ($engine == 'pinyin') :
+		$converted_tags = ats_pinyin($tags_array);
+	else :
+		$converted_tags = $tags_array;
+	endif;
+
+	$i = 0;
+	foreach($tags as &$tag){
+		if ( preg_match('/[^a-z0-9- ]/', $tag->slug) && !empty($translated_array[$i]) ) {
+			$tag->slug = $converted_tags[$i];
+		}
+		$i++;
+	}
+	
 
 	$num = 0;
 	foreach ($tags as $tag)
 	{
-		if ($engine == 'pinyin') :
-			$new_slug = ats_pinyin( urldecode($tag->slug) );
-		else :
-			$new_slug = $tag->slug;
-		endif;
 		// Check if slug is used by other tag
 		// HINT: Tag may be used by self, when update excuse
 		$i = 1;
+		$new_slug = urlencode($tag->slug);
 		$new_slug_twist = $new_slug;
 		while ( ats_slug_used_by_other_tag($tag, $new_slug_twist) )
 		{
@@ -105,20 +120,11 @@ function ats_recover_all() {
 	$tags = get_terms('post_tag');
 	$num = 0;
 	foreach ($tags as $tag) {
-		wp_update_term($tag->term_id, 'post_tag', array('slug' => urlencode($tag->name)));
+		wp_update_term($tag->term_id, 'post_tag', array('slug' => sanitize_title($tag->name) ) );
 		$num += 1;
 	}
 	return $num;
 }
-
-function gk_test() {
-	//$s = ats_translate_engine('新浪微博');
-	$s = $locale;
-	$tag = get_term_by('id', 72, 'post_tag');
-	wp_update_term($tag->term_id, 'post_tag', array('slug' => urlencode($tag->name)));
-	var_dump($s);
-}
-
 
 // Make sure we don't expose any info if called directly
 if ( !function_exists( 'add_action' ) ) {
@@ -126,11 +132,8 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
-
 if ( !wp_is_post_revision( $post_ID ) && $ats_options['switch'] ) {
 	add_action('save_post', 'ats_convert');
-	//add_action( 'admin_notices', 'gk_test' );
 }
-
 
 ?>
