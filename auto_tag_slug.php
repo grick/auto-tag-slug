@@ -59,7 +59,7 @@ function ats_convert_tags($tags) {
 		$translated_array = ats_bing_translate($ats_options['bing_key'], $array);
 		$i = 0;
 		foreach($tags as &$tag){
-			if ( preg_match('/[^a-z0-9- ]/', $tag->slug) ) {
+			if ( preg_match('/[^a-z0-9- ]/', $tag->slug) && !empty($translated_array[$i]) ) {
 				$tag->slug = $translated_array[$i];
 			}
 			$i++;

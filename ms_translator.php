@@ -1,21 +1,26 @@
 <?php
-function ats_request_by_socket($remote_server,$remote_path,$post_string,$port = 80,$timeout = 30){
-	$socket = fsockopen($remote_server,$port,$errno,$errstr,$timeout);
-	if (!$socket) die("$errstr($errno)");
-	fwrite($socket,"POST $remote_path HTTP/1.0\r\n");
-	fwrite($socket,"User-Agent: WordPress Auto Tag Slug Plugin\r\n");
-	fwrite($socket,"HOST: $remote_server\r\n");
-	fwrite($socket,"Content-Type: text/xml\r\n");
-	fwrite($socket,"Content-Length: ".strlen($post_string)."\r\n");
-	fwrite($socket,"Accept:*/*\r\n");
-	fwrite($socket,"\r\n");
-	fwrite($socket,"$post_string\r\n");
-	fwrite($socket,"\r\n");
-	$data = "";
-	while (!feof($socket)) {
-		$data .= fgets($socket,1024);
+if ( !function_exists('fsockopen') ) {
+	wp_die(__('Function fsockopen() is not supported, please contact your webmaster.'));
+}
+else {
+	function ats_request_by_socket($remote_server,$remote_path,$post_string,$port = 80,$timeout = 30){
+		$socket = @fsockopen($remote_server,$port,$errno,$errmsg,$timeout);
+		if (!$socket) wp_die(__('Something wrong when access to the Bing server.'));
+		fwrite($socket,"POST $remote_path HTTP/1.0\r\n");
+		fwrite($socket,"User-Agent: WordPress Auto Tag Slug Plugin\r\n");
+		fwrite($socket,"HOST: $remote_server\r\n");
+		fwrite($socket,"Content-Type: text/xml\r\n");
+		fwrite($socket,"Content-Length: ".strlen($post_string)."\r\n");
+		fwrite($socket,"Accept:*/*\r\n");
+		fwrite($socket,"\r\n");
+		fwrite($socket,"$post_string\r\n");
+		fwrite($socket,"\r\n");
+		$data = "";
+		while (!feof($socket)) {
+			$data .= fgets($socket,1024);
+		}
+		return $data;
 	}
-	return $data;
 }
 
 function ats_text_array_xml($array) {
