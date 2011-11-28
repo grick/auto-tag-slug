@@ -1,1 +1,0 @@
-sudo /opt/lampp/bin/php /home/abc/svn/wordpress-i18n-tool/trunk/makepot.php wp-plugin .
