@@ -1,53 +1,41 @@
 === Plugin Name ===
 Contributors: grick
-Tags: tags, slug, url
+Tags: tag, tags, slug, url, rewrite, Bing, permarlink, SEO
 Requires at least: 2.0.2
 Tested up to: 3.2.1
-Stable tag: 4.3
+Stable tag: 0.5
 
 Generate url friendly tag slug. Especially useful for non-English speaking country users.
 
 == Description ==
 
-This plugin will convert new/old tags slug to 
+This plugin will convert post tags slug to Pinyin or English words.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+For example, you may have tag URL like this: www.abc.com/tag/`%e4%bd%a0%e5%a5%bd`
+With this plugin, you can convert all of them to the following format:
 
-A few notes about the sections above:
+*	www.abc.com/tag/`ni-hao`
+*	www.abc.com/tag/`hello`
 
-*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
+These URL have better looks and should be more Search Engine friendly.
 
-    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
+= Main Feature =
 
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
+* One click to convert all post tags slug
+* Select "Pin Yin" or "English" for slug format
+* Convert post tags slug automatically when new post save or update
+* Reset all tags slug to default
 
 == Installation ==
 
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
+1. Upload `auto-tag-slug` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Why use this plugin? =
 
-An answer to that question.
-
-= What about foo bar? =
-
-Answer to foo bar dilemma.
+If you are non English country user, This plugin can make beautiful url for your tags.It is also able to solve some rewrite problem on IIS6.
 
 == Screenshots ==
 
@@ -57,48 +45,6 @@ the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1
 
 == Changelog ==
 
-= 1.0 =
-* A change since the previous version.
-* Another change.
-
 = 0.5 =
-* List versions from most recent at top to oldest at bottom.
+Initial release.
 
-== Upgrade Notice ==
-
-= 1.0 =
-Upgrade notices describe the reason a user should upgrade.  No more than 300 characters.
-
-= 0.5 =
-This version fixes a security related bug.  Upgrade immediately.
-
-== Arbitrary section ==
-
-You may provide arbitrary sections, in the same format as the ones above.  This may be of use for extremely complicated
-plugins where more information needs to be conveyed that doesn't fit into the categories of "description" or
-"installation."  Arbitrary sections will be shown below the built-in sections outlined above.
-
-== A brief Markdown Example ==
-
-Ordered list:
-
-1. Some feature
-1. Another feature
-1. Something else about the plugin
-
-Unordered list:
-
-* something
-* something else
-* third thing
-
-Here's a link to [WordPress](http://wordpress.org/ "Your favorite software") and one to [Markdown's Syntax Documentation][markdown syntax].
-Titles are optional, naturally.
-
-[markdown syntax]: http://daringfireball.net/projects/markdown/syntax
-            "Markdown is what the parser uses to process much of the readme file"
-
-Markdown uses email style notation for blockquotes and I've been told:
-> Asterisks for *emphasis*. Double it up  for **strong**.
-
-`<?php code(); // goes in backticks ?>`
