@@ -1,0 +1,158 @@
+# Copyright (C) 2010 Auto Tag Slug
+# This file is distributed under the same license as the Auto Tag Slug package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Auto Tag Slug 0.5\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/auto-tag-slug\n"
+"POT-Creation-Date: 2011-11-29 19:50:12+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: admin_page.php:13
+msgid "General Settings"
+msgstr ""
+
+#: admin_page.php:14
+msgid "Enable Convertor"
+msgstr ""
+
+#: admin_page.php:15
+msgid "Slug Format"
+msgstr ""
+
+#: admin_page.php:16 admin_page.php:56
+msgid "Pin Yin"
+msgstr ""
+
+#: admin_page.php:17
+msgid "English"
+msgstr ""
+
+#: admin_page.php:30
+msgid ""
+"If turn on, the tag slug will be convert automatically while new post save/"
+"update."
+msgstr ""
+
+#: admin_page.php:35
+msgid ""
+"Use Chinese pinyin for tag slug. Tags permalink: <code>http://www.xxx.com/"
+"tag/ni-hao</code>"
+msgstr ""
+
+#: admin_page.php:36 admin_page.php:39
+msgid "Simplified Chinese"
+msgstr ""
+
+#: admin_page.php:36
+msgid "Traditional Chinese"
+msgstr ""
+
+#: admin_page.php:48
+msgid ""
+"Use English words for tag slug. Tags permalink: <code>http://www.xxx.com/tag/"
+"english-word</code>"
+msgstr ""
+
+#: admin_page.php:51
+msgid "GET ONE HERE."
+msgstr ""
+
+#: admin_page.php:95
+msgid ""
+"You need an API key to activate English translator. Get one <a href=\"http://"
+"www.bing.com/developers/appids.aspx\" target=_blank>here</a> and <a href="
+"\"options-general.php?page=auto-tag-slug\">fix it</a>."
+msgstr ""
+
+#: admin_page.php:102
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: admin_page.php:110
+msgid "Save Changes"
+msgstr ""
+
+#: admin_page.php:114
+msgid "Batch Process"
+msgstr ""
+
+#: admin_page.php:115
+msgid "Use this to covert/recover all tags."
+msgstr ""
+
+#: admin_page.php:116
+msgid ""
+"Warning: Recommend to backup your database first. This may take a long time "
+"if you have large number of tags."
+msgstr ""
+
+#: admin_page.php:118
+msgid ""
+"Before converting, you must select one slug format and save changes first. "
+"If you want to change previous posts tag slug format, you should recover all "
+"tags and then convert all. <br />For example if you want change all Pin Yin "
+"tags to English tags, you should do the following steps:"
+msgstr ""
+
+#: admin_page.php:121
+msgid "Click \"Recover All\""
+msgstr ""
+
+#: admin_page.php:122
+msgid "Select English slug format"
+msgstr ""
+
+#: admin_page.php:123
+msgid "Save changes"
+msgstr ""
+
+#: admin_page.php:124
+msgid "Click \"Convert All\""
+msgstr ""
+
+#: admin_page.php:127
+msgid "Recover All"
+msgstr ""
+
+#: admin_page.php:128
+msgid "Convert All"
+msgstr ""
+
+#: auto-tag-slug.php:134
+msgid "Hi there!  I'm just a plugin, not much I can do when called directly."
+msgstr ""
+
+#: ms_translator.php:3
+msgid "Function fsockopen() is not supported, please contact your webmaster."
+msgstr ""
+
+#: ms_translator.php:8
+msgid "Something wrong when access to the Bing server."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Auto Tag Slug"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.grick.net/1125"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Automatically generate English Words or Chinese Pinyin slug for your tags, "
+"especially helpful for non-English country users."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Grick.C"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.grick.net"
+msgstr ""
