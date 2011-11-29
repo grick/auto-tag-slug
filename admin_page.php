@@ -8,13 +8,13 @@ function ats_add_page() {
 }
 
 function ats_option_init() {
-	load_plugin_textdomain( 'auto-tag-slug', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-register_setting('ats_options', 'ats_options', 'ats_options_validate');
-	add_settings_section('top', __('General Settings'), 'ats_section_top', __FILE__);
-	add_settings_field('ats_switch_chk', __('Enable Convertor'), 'ats_setting_switch', __FILE__, 'top');
-	add_settings_section('middle', __('Slug Format'), 'ats_section_middle', __FILE__);
-	add_settings_field('ats_engine_radio1', ats_label_radio(__('Pin Yin')), 'ats_setting_engine1', __FILE__, 'middle');
-	add_settings_field('ats_engine_radio2', ats_label_radio(__('English')), 'ats_setting_engine2', __FILE__, 'middle');
+	load_plugin_textdomain( 'auto-tag-slug', false, basename(dirname(__FILE__)) .'/languages' );
+	register_setting('ats_options', 'ats_options', 'ats_options_validate');
+	add_settings_section('top', __('General Settings', 'auto-tag-slug'), 'ats_section_top', __FILE__);
+	add_settings_field('ats_switch_chk', __('Enable Convertor', 'auto-tag-slug'), 'ats_setting_switch', __FILE__, 'top');
+	add_settings_section('middle', __('Slug Format', 'auto-tag-slug'), 'ats_section_middle', __FILE__);
+	add_settings_field('ats_engine_radio1', ats_label_radio(__('Pin Yin', 'auto-tag-slug')), 'ats_setting_engine1', __FILE__, 'middle');
+	add_settings_field('ats_engine_radio2', ats_label_radio(__('English', 'auto-tag-slug')), 'ats_setting_engine2', __FILE__, 'middle');
 }
 
 function ats_section_top() {
@@ -27,16 +27,16 @@ function ats_setting_switch() {
 	global $ats_options;
 	if($ats_options['switch']) { $checked = 'checked="check"'; }
 	echo '<label><input id="ats_switch_chk" name="ats_options[switch]" type="checkbox" '.$checked.' />  ';
-	echo __('If turn on, the tag slug will be convert automatically while new post save/update.') .'</label>';
+	echo __('If turn on, the tag slug will be convert automatically while new post save/update.', 'auto-tag-slug') .'</label>';
 }
 
 function ats_setting_engine1() {
 	global $ats_options;
-	_e('Use Chinese pinyin for tag slug. Tags permalink: <code>http://www.xxx.com/tag/ni-hao</code>');
-	$items = array(__("Simplified Chinese"), __("Traditional Chinese") );
+	_e('Use Chinese pinyin for tag slug. Tags permalink: <code>http://www.xxx.com/tag/ni-hao</code>', 'auto-tag-slug');
+	$items = array(__("Simplified Chinese", 'auto-tag-slug'), __("Traditional Chinese", 'auto-tag-slug') );
 	echo '<p>';
 	foreach($items as $item) {
-		$value = ($item == __('Simplified Chinese')) ? 'zh-hans' : 'zh-hant';
+		$value = ($item == __('Simplified Chinese', 'auto-tag-slug')) ? 'zh-hans' : 'zh-hant';
 		$checked = ($ats_options['cnlang']==$value) ? ' checked="checked" ' : '';
 		echo "<label><input ".$checked." value='$value' name='ats_options[cnlang]' type='radio' /> $item</label><br />";
 	}
@@ -45,15 +45,15 @@ function ats_setting_engine1() {
 
 function ats_setting_engine2() {
 	global $ats_options;
-	_e('Use English words for tag slug. Tags permalink: <code>http://www.xxx.com/tag/english-word</code>');
+	_e('Use English words for tag slug. Tags permalink: <code>http://www.xxx.com/tag/english-word</code>', 'auto-tag-slug');
 	echo '<p><label>BING API KEY: ';
 	echo "<input id='ats_key_text' name='ats_options[bing_key]' size='50' type='text' value='{$ats_options['bing_key']}' /></label>";
-	echo ' <a href="http://www.bing.com/developers/appids.aspx" target="_blank">' .__('GET ONE HERE.') .'</a></p>';
+	echo ' <a href="http://www.bing.com/developers/appids.aspx" target="_blank">' .__('GET ONE HERE.', 'auto-tag-slug') .'</a></p>';
 }
 
 function ats_label_radio($title) {
 	global $ats_options;
-	$value = ($title == __('Pin Yin')) ? 'pinyin' : 'english';
+	$value = ($title == __('Pin Yin', 'auto-tag-slug')) ? 'pinyin' : 'english';
 	$checked = ($ats_options["engine"]==$value) ? ' checked="checked" ' : '';
 	return "<label><input ".$checked." value='$value' name='ats_options[engine]' type='radio' /> $title</label><br />";
 }
@@ -61,7 +61,7 @@ function ats_label_radio($title) {
 function ats_options_validate($input) {
 	$input['bing_key'] = trim($input['bing_key']);
 	if ($input['engine']=='english' && !$input['bing_key']) :
-		add_settings_error('ats_key_text', 'no-key', __('You need an API key to activate English translator. Get one <a href="http://www.bing.com/developers/appids.aspx\" target=_blank>here</a>.') );
+		add_settings_error('ats_key_text', 'no-key', __('You need an API key to activate English translator. Get one <a href="http://www.bing.com/developers/appids.aspx\" target=_blank>here</a>.', 'auto-tag-slug') );
 	elseif ($input['engine']!='pinyin' && $input['cnlang']) :
 		unset($input['cnlang']);
 		return $input;
@@ -90,7 +90,7 @@ function ats_notice($num) {
 
 function ats_option_page() {
 	if (!current_user_can('manage_options')) {
-		wp_die( __('You do not have sufficient permissions to access this page.') );
+		wp_die( __('You do not have sufficient permissions to access this page.', 'auto-tag-slug') );
 	}
 	echo '<div class="wrap">';
 	if ( function_exists('screen_icon') ) echo screen_icon(); ?>
@@ -99,27 +99,27 @@ function ats_option_page() {
 	<?php settings_fields('ats_options'); ?>
 	<?php do_settings_sections(__FILE__); ?>
 	<p class='submit'>
-		<input name='Submit' type='submit' class='button-primary' value="<?php esc_attr_e('Save Changes'); ?>" />
+		<input name='Submit' type='submit' class='button-primary' value="<?php esc_attr_e('Save Changes', 'auto-tag-slug'); ?>" />
 	</p>
 	</form>
 
 	<form method='post' action=''><?php
-	echo '<h3>'.__('Batch Process').'</h3>
-	<p>'.__('Use this to covert/recover all tags.').'</p>
-	<p>'.__('Warning: Recommend to backup your database first. This may take a long time if you have large number of tags.').'
+	echo '<h3>'.__('Batch Process', 'auto-tag-slug').'</h3>
+	<p>'.__('Use this to covert/recover all tags.', 'auto-tag-slug').'</p>
+	<p>'.__('Warning: Recommend to backup your database first. This may take a long time if you have large number of tags.', 'auto-tag-slug').'
 	</p>
-	<p>'.__('Before converting, you must select one slug format and save changes first. If you want use new format, you should recover all tags and then convert all. <br />For example if you want change all Pin Yin tags to English tags, you should do the following steps:').'
+	<p>'.__('Before converting, you must select one slug format and save changes first. If you want to change previous posts tag slug format, you should recover all tags and then convert all. <br />For example if you want change all Pin Yin tags to English tags, you should do the following steps:', 'auto-tag-slug').'
 	</p>
 	<ol>
-		<li>'.__('Click "Recover All"').'</li>
-		<li>'.__('Select English slug format').'</li>
-		<li>'.__('Save changes').'</li>
-		<li>'.__('Click "Convert All"').'</li>
+		<li>'.__('Click "Recover All"', 'auto-tag-slug').'</li>
+		<li>'.__('Select English slug format', 'auto-tag-slug').'</li>
+		<li>'.__('Save changes', 'auto-tag-slug').'</li>
+		<li>'.__('Click "Convert All"', 'auto-tag-slug').'</li>
 		</ol>';
 ?>
 	<p class='submit'>
-		<input name='covert_all' type='submit' value="<?php esc_attr_e('Convert All'); ?>" />
-		<input name='recover' type='submit' value="<?php esc_attr_e('Recover All'); ?>" />
+		<input name='recover' type='submit' value="<?php esc_attr_e('Recover All', 'auto-tag-slug'); ?>" />
+		<input name='covert_all' type='submit' value="<?php esc_attr_e('Convert All', 'auto-tag-slug'); ?>" />
 	</p>
 	</form>
 	</div>
