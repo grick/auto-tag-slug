@@ -11,11 +11,11 @@ Generate url friendly tag slug. Especially useful for non-English speaking count
 
 This plugin will convert post tags slug to Pinyin or English words.
 
-For example, you may have tag URL like this: www.abc.com/tag/`%e4%bd%a0%e5%a5%bd`
+For example, you may have tag URL like this: `www.abc.com/tag/%e4%bd%a0%e5%a5%bd`
 With this plugin, you can convert all of them to the following format:
 
-*	www.abc.com/tag/`ni-hao`
-*	www.abc.com/tag/`hello`
+*	`www.abc.com/tag/ni-hao`
+*	`www.abc.com/tag/hello`
 
 These URL have better looks and should be more Search Engine friendly.
 
@@ -26,9 +26,9 @@ These URL have better looks and should be more Search Engine friendly.
 
 此插件的初衷是为了解决 IIS6 上经过 Rewrite 的 tag 的解析问题，使用后可以将 WordPress 标签原生的 urlencode 格式转换为汉语拼音或者英语单词。
 
-原来的 URL：http:// www.abc.com/tag/%e4%bd%a0%e5%a5%bd
-拼音转换后的 URL： http://www.abc.com/tag/ni-hao
-英语单词转换后的 URL： http://www.abc.com/tag/hello
+原来的 URL：`www.abc.com/tag/%e4%bd%a0%e5%a5%bd`
+拼音转换后的 URL： `www.abc.com/tag/ni-hao`
+英语单词转换后的 URL： `www.abc.com/tag/hello`
 
 支持一键转换与自动转换功能。
 
