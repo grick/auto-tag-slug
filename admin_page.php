@@ -46,7 +46,7 @@ function ats_setting_engine1() {
 function ats_setting_engine2() {
 	global $ats_options;
 	_e('Use English words for tag slug. Tags permalink: <code>http://www.xxx.com/tag/english-word</code>', 'auto-tag-slug');
-	echo '<p><label>BING API KEY: ';
+	echo '<p><label>Bing API KEY: ';
 	echo "<input id='ats_key_text' name='ats_options[bing_key]' size='50' type='text' value='{$ats_options['bing_key']}' /></label>";
 	echo ' <a href="http://www.bing.com/developers/appids.aspx" target="_blank">' .__('GET ONE HERE.', 'auto-tag-slug') .'</a></p>';
 }
@@ -60,9 +60,9 @@ function ats_label_radio($title) {
 
 function ats_options_validate($input) {
 	$input['bing_key'] = trim($input['bing_key']);
-	if ($input['engine']=='english' && !$input['bing_key']) :
-		add_settings_error('ats_key_text', 'no-key', __('You need an API key to activate English translator. Get one <a href="http://www.bing.com/developers/appids.aspx\" target=_blank>here</a>.', 'auto-tag-slug') );
-	elseif ($input['engine']!='pinyin' && $input['cnlang']) :
+	//if ($input['engine']=='english' && !$input['bing_key']) :
+	//	add_settings_error('ats_key_text', 'no-key', __('You need an API key to activate English translator. Get one <a href="http://www.bing.com/developers/appids.aspx\" target=_blank>here</a>.', 'auto-tag-slug') );
+	if ($input['engine']!='pinyin' && $input['cnlang']) :
 		unset($input['cnlang']);
 		return $input;
 	elseif ($input['engine']=='pinyin' && !$input['cnlang']) :
@@ -88,23 +88,30 @@ function ats_notice($num) {
 	echo "<div class='updated'><p>$notice</p></div>";
 }
 
+function ats_api_warning() {
+	global $ats_options;
+	if ( empty($ats_options['bing_key']) ) {
+	echo "
+		<div class='updated fade'><p> Atuo Tag Slug: " .__('You need an API key to activate English translator. Get one <a href="http://www.bing.com/developers/appids.aspx" target=_blank>here</a> and <a href="options-general.php?page=auto-tag-slug">fix it</a>.', 'auto-tag-slug') ."</p></div>
+		";
+	}
+}
+
 function ats_option_page() {
 	if (!current_user_can('manage_options')) {
 		wp_die( __('You do not have sufficient permissions to access this page.', 'auto-tag-slug') );
 	}
 	echo '<div class="wrap">';
-	if ( function_exists('screen_icon') ) echo screen_icon(); ?>
-	<h2>Auto Tag Slug</h2> 
-	<form method='post' action='options.php'>
-	<?php settings_fields('ats_options'); ?>
-	<?php do_settings_sections(__FILE__); ?>
-	<p class='submit'>
-		<input name='Submit' type='submit' class='button-primary' value="<?php esc_attr_e('Save Changes', 'auto-tag-slug'); ?>" />
-	</p>
-	</form>
+	if ( function_exists('screen_icon') ) echo screen_icon();
+	echo "<h2>Auto Tag Slug</h2> 
+	<form method='post' action='options.php'>";
+	settings_fields('ats_options');
+	do_settings_sections(__FILE__);
+	echo " <p class='submit'> <input name='Submit' type='submit' class='button-primary' value=\"". __('Save Changes', 'auto-tag-slug') . "\" /> </p>
+	</form>";
 
-	<form method='post' action=''><?php
-	echo '<h3>'.__('Batch Process', 'auto-tag-slug').'</h3>
+	echo "<form method='post' action=''> ".
+	 '<h3>'.__('Batch Process', 'auto-tag-slug').'</h3>
 	<p>'.__('Use this to covert/recover all tags.', 'auto-tag-slug').'</p>
 	<p>'.__('Warning: Recommend to backup your database first. This may take a long time if you have large number of tags.', 'auto-tag-slug').'
 	</p>
@@ -115,15 +122,12 @@ function ats_option_page() {
 		<li>'.__('Select English slug format', 'auto-tag-slug').'</li>
 		<li>'.__('Save changes', 'auto-tag-slug').'</li>
 		<li>'.__('Click "Convert All"', 'auto-tag-slug').'</li>
-		</ol>';
-?>
-	<p class='submit'>
-		<input name='recover' type='submit' value="<?php esc_attr_e('Recover All', 'auto-tag-slug'); ?>" />
-		<input name='covert_all' type='submit' value="<?php esc_attr_e('Convert All', 'auto-tag-slug'); ?>" />
+		</ol>' .
+	"<p class='submit'>
+		<input name='recover' type='submit' value=\"". __('Recover All', 'auto-tag-slug')." \" />
+		<input name='covert_all' type='submit' value=\"" . __('Convert All', 'auto-tag-slug') ."\" />
 	</p>
 	</form>
-	</div>
-
-<?
+	</div>";
 }
-
+?>
