@@ -60,8 +60,6 @@ function ats_label_radio($title) {
 
 function ats_options_validate($input) {
 	$input['bing_key'] = trim($input['bing_key']);
-	//if ($input['engine']=='english' && !$input['bing_key']) :
-	//	add_settings_error('ats_key_text', 'no-key', __('You need an API key to activate English translator. Get one <a href="http://www.bing.com/developers/appids.aspx\" target=_blank>here</a>.', 'auto-tag-slug') );
 	if ($input['engine']!='pinyin' && $input['cnlang']) :
 		unset($input['cnlang']);
 		return $input;
